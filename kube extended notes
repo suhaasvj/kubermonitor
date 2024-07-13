@@ -176,10 +176,10 @@ Kubernetes Concepts Overview
 |                   |                                                      | - Custom Controllers: Implement custom logic for these      |
 |                   |                                                      |   resources.                                                |
 +-------------------+------------------------------------------------------+-------------------------------------------------------------+
-| ClusterRole        | Defines permissions across the cluster             | - Cluster-Wide Permissions: Grants permissions at the        |
+| ClusterRole        | Defines permissions across the cluster              | - Cluster-Wide Permissions: Grants permissions at the       |
 |                   |                                                      |   cluster level.                                            |
 +-------------------+------------------------------------------------------+-------------------------------------------------------------+
-| ClusterRoleBinding | Binds roles to users/groups/service accounts       | - Binding Roles: Assigns ClusterRoles to subjects (users,    |
+| ClusterRoleBinding | Binds roles to users/groups/service accounts        | - Binding Roles: Assigns ClusterRoles to subjects (users,   |
 |                   |                                                      |   groups, service accounts).                                |
 +-------------------+------------------------------------------------------+-------------------------------------------------------------+
 
