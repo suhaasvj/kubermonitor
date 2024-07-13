@@ -9,3 +9,15 @@ helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
 helm install grafana grafana/grafana
 kubectl expose service grafana --type=NodePort --target-port=3000 --name=grafana-ext
+
+
+
+now if we get an error while connecting, in ternimal try below 
+
+hostname
+
+I have Suhaass-MacBook-Pro.local 
+
+so now do kubectl get svcs and take the port and do 
+
+http://Suhaass-MacBook-Pro.local:<port number> to access grafana 
