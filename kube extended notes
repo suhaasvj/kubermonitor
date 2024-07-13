@@ -1,23 +1,185 @@
-Deployments:
+Kubernetes Concepts Overview
+1. Deployments
+Definition:
+A Deployment is a Kubernetes resource that provides a declarative way to manage and update a set of Pods. It ensures that the desired number of Pods are running and handles rolling updates and rollbacks.
 
-Use Cases:
+Key Features:
 
-Create a Deployment to rollout a ReplicaSet. The ReplicaSet creates Pods in the background. 
+Rolling Updates: Update Pods in a controlled way without downtime.
+Rollbacks: Revert to a previous version if the current update fails.
+Scaling: Easily adjust the number of Pod replicas.
+Declarative Configuration: Specify the desired state in a YAML file.
+Basic Commands:
 
-Check the status of the rollout to see if it succeeds or not.
+Create Deployment: kubectl apply -f deployment.yaml
+Update Deployment: kubectl set image deployment/my-app-deployment my-app-container=my-app-image:new-version
+Rollback Deployment: kubectl rollout undo deployment/my-app-deployment
+Scale Deployment: kubectl scale deployment/my-app-deployment --replicas=5
+2. DaemonSet
+Definition:
+A DaemonSet ensures that a specific Pod runs on all (or a subset of) Nodes in a Kubernetes cluster. It is used for system-level or cluster-wide services.
 
-Declare the new state of the Pods by updating the PodTemplateSpec of the Deployment. A new 
+Key Features:
 
-ReplicaSet is created and the Deployment manages moving the Pods from the old ReplicaSet to the new one at a controlled rate. Each new ReplicaSet updates the revision of the Deployment.
+Cluster-Wide Services: Ideal for services like log collection or monitoring.
+Automatic Pod Distribution: Ensures Pods are running on all Nodes or specified Nodes.
+Basic Commands:
 
-Rollback to an earlier Deployment revision if the current state of the Deployment is not stable. 
+Create DaemonSet: kubectl apply -f daemonset.yaml
+Delete DaemonSet: kubectl delete daemonset my-daemonset
+3. StatefulSet
+Definition:
+A StatefulSet is a Kubernetes resource for managing stateful applications. It provides stable, unique network identities and persistent storage for each Pod.
 
-Each rollback updates the revision of the Deployment.
+Key Features:
 
-Scale up the Deployment to facilitate more load.
+Stable Network Identity: Each Pod gets a unique, consistent name.
+Persistent Storage: Manages persistent volumes for stateful applications.
+Ordered Deployment and Scaling: Guarantees the order of operations.
+Basic Commands:
 
-Pause the rollout of a Deployment to apply multiple fixes to its PodTemplateSpec and then resume it to start a new rollout.
+Create StatefulSet: kubectl apply -f statefulset.yaml
+Delete StatefulSet: kubectl delete statefulset my-statefulset
+4. ConfigMap
+Definition:
+A ConfigMap is a Kubernetes resource used to store configuration data in a key-value format. It decouples configuration from application code.
 
-Use the status of the Deployment as an indicator that a rollout has stuck.
+Key Features:
 
-Clean up older ReplicaSets that you don't need anymore.
+Configuration Management: Store configuration data such as environment variables or command-line arguments.
+Reference Configurations: Inject configurations into Pods.
+Basic Commands:
+
+Create ConfigMap: kubectl apply -f configmap.yaml
+View ConfigMap: kubectl get configmap my-configmap -o yaml
+Delete ConfigMap: kubectl delete configmap my-configmap
+5. Secret
+Definition:
+A Secret is a Kubernetes resource designed to store sensitive information such as passwords, OAuth tokens, or SSH keys.
+
+Key Features:
+
+Sensitive Data Management: Securely store and manage sensitive information.
+Data Access: Inject secrets into Pods as environment variables or files.
+Basic Commands:
+
+Create Secret: kubectl apply -f secret.yaml
+View Secret: kubectl get secret my-secret -o yaml
+Delete Secret: kubectl delete secret my-secret
+6. CronJob
+Definition:
+A CronJob schedules Jobs to run at specific times or intervals, similar to the cron utility in Unix-like systems.
+
+Key Features:
+
+Scheduled Jobs: Run Jobs at scheduled times.
+Flexible Scheduling: Define schedules using cron syntax.
+Basic Commands:
+
+Create CronJob: kubectl apply -f cronjob.yaml
+View CronJob: kubectl get cronjob my-cronjob -o yaml
+Delete CronJob: kubectl delete cronjob my-cronjob
+7. Job
+Definition:
+A Job creates one or more Pods to complete a task and ensures that the task finishes successfully. Jobs are used for batch processing.
+
+Key Features:
+
+Batch Processing: Execute tasks that require completion.
+Retry Mechanism: Handles retries for failed Pods.
+Basic Commands:
+
+Create Job: kubectl apply -f job.yaml
+View Job: kubectl get job my-job -o yaml
+Delete Job: kubectl delete job my-job
+8. Custom Resource Definition (CRD)
+Definition:
+A Custom Resource Definition (CRD) allows you to extend Kubernetes capabilities by defining your own custom resources.
+
+Key Features:
+
+Extend Kubernetes: Create new resource types beyond the default Kubernetes resources.
+Custom Controllers: Implement custom logic for these resources.
+Basic Commands:
+
+Create CRD: kubectl apply -f crd.yaml
+View CRD: kubectl get crd mycustomresources.mygroup.example.com -o yaml
+Delete CRD: kubectl delete crd mycustomresources.mygroup.example.com
+9. ClusterRole
+Definition:
+A ClusterRole defines a set of permissions that can be applied across the entire Kubernetes cluster. It is used to specify access to resources.
+
+Key Features:
+
+Cluster-Wide Permissions: Grants permissions at the cluster level.
+Basic Commands:
+
+Create ClusterRole: kubectl apply -f clusterrole.yaml
+View ClusterRole: kubectl get clusterrole my-clusterrole -o yaml
+Delete ClusterRole: kubectl delete clusterrole my-clusterrole
+10. ClusterRoleBinding
+Definition:
+A ClusterRoleBinding binds a ClusterRole to users, groups, or service accounts at the cluster level.
+
+Key Features:
+
+Binding Roles: Assigns ClusterRoles to subjects (users, groups, service accounts).
+Basic Commands:
+
+Create ClusterRoleBinding: kubectl apply -f clusterrolebinding.yaml
+View ClusterRoleBinding: kubectl get clusterrolebinding my-clusterrolebinding -o yaml
+Delete ClusterRoleBinding: kubectl delete clusterrolebinding my-clusterrolebinding
+
+Kubernetes Concepts Overview
+
++-------------------+------------------------------------------------------+-------------------------------------------------------------+
+| Resource          | Purpose                                              | Key Features                                                |
++-------------------+------------------------------------------------------+-------------------------------------------------------------+
+| Deployment        | Manages Pods and updates                            | - Rolling Updates: Update Pods in a controlled way without   |
+|                   |                                                      |   downtime.                                                 |
+|                   |                                                      | - Rollbacks: Revert to a previous version if the current    |
+|                   |                                                      |   update fails.                                             |
+|                   |                                                      | - Scaling: Easily adjust the number of Pod replicas.        |
+|                   |                                                      | - Declarative Configuration: Specify the desired state      |
+|                   |                                                      |   in a YAML file.                                           |
++-------------------+------------------------------------------------------+-------------------------------------------------------------+
+| DaemonSet          | Ensures Pods run on all Nodes or specified Nodes    | - Cluster-Wide Services: Ideal for services like log        |
+|                   |                                                      |   collection or monitoring.                                 |
+|                   |                                                      | - Automatic Pod Distribution: Ensures Pods are running on   |
+|                   |                                                      |   all Nodes or specified Nodes.                             |
++-------------------+------------------------------------------------------+-------------------------------------------------------------+
+| StatefulSet        | Manages stateful applications with stable identities| - Stable Network Identity: Each Pod gets a unique,          |
+|                   |                                                      |   consistent name.                                          |
+|                   |                                                      | - Persistent Storage: Manages persistent volumes for        |
+|                   |                                                      |   stateful applications.                                    |
+|                   |                                                      | - Ordered Deployment and Scaling: Guarantees the order      |
+|                   |                                                      |   of operations.                                            |
++-------------------+------------------------------------------------------+-------------------------------------------------------------+
+| ConfigMap          | Stores configuration data                           | - Configuration Management: Store configuration data such   |
+|                   |                                                      |   as environment variables or command-line arguments.       |
+|                   |                                                      | - Reference Configurations: Inject configurations into      |
+|                   |                                                      |   Pods.                                                     |
++-------------------+------------------------------------------------------+-------------------------------------------------------------+
+| Secret             | Stores sensitive data                               | - Sensitive Data Management: Securely store and manage      |
+|                   |                                                      |   sensitive information.                                    |
+|                   |                                                      | - Data Access: Inject secrets into Pods as environment      |
+|                   |                                                      |   variables or files.                                       |
++-------------------+------------------------------------------------------+-------------------------------------------------------------+
+| CronJob            | Schedules Jobs to run at specific times             | - Scheduled Jobs: Run Jobs at scheduled times.              |
+|                   |                                                      | - Flexible Scheduling: Define schedules using cron syntax.  |
++-------------------+------------------------------------------------------+-------------------------------------------------------------+
+| Job                | Manages batch processing tasks                      | - Batch Processing: Execute tasks that require completion.  |
+|                   |                                                      | - Retry Mechanism: Handles retries for failed Pods.         |
++-------------------+------------------------------------------------------+-------------------------------------------------------------+
+| Custom Resource Definition (CRD) | Defines custom resources              | - Extend Kubernetes: Create new resource types beyond the   |
+|                   |                                                      |   default Kubernetes resources.                             |
+|                   |                                                      | - Custom Controllers: Implement custom logic for these      |
+|                   |                                                      |   resources.                                                |
++-------------------+------------------------------------------------------+-------------------------------------------------------------+
+| ClusterRole        | Defines permissions across the cluster             | - Cluster-Wide Permissions: Grants permissions at the        |
+|                   |                                                      |   cluster level.                                            |
++-------------------+------------------------------------------------------+-------------------------------------------------------------+
+| ClusterRoleBinding | Binds roles to users/groups/service accounts       | - Binding Roles: Assigns ClusterRoles to subjects (users,    |
+|                   |                                                      |   groups, service accounts).                                |
++-------------------+------------------------------------------------------+-------------------------------------------------------------+
+
